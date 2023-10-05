@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #333;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        .footer {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Object Detection</h1>
+    <div class="video-container">
+        <img src="{{ url_for('video_feed') }}" alt="Live Video Stream">
+    </div>
+    <div class="footer">
+        <p>Powered by Flask and OpenCV</p>
+    </div>
+</body>
+</html>
