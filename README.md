@@ -2,6 +2,7 @@
 Object detection with OpenCV and Flask using the COCO model.\
 A very simple project that uses the OpenCV library to detect objects with a camera.\
 The camera output is then broadcast over LAN by connecting to http://ComputerIP:5000 .\
+Javascript features are added mainly for personal practice, every feature can be implemented within flask using only python. \
 The code was made to work on a Raspberry Pi 4 with a pi camera module connected to the camera port.\
 Camera vision is very resource demanding; limiting the amount of objects to be detected is good practice.\
 The installation process for OpenCV is very time consuming and needs proper execution but is well documented on their site.\
