@@ -1,19 +1,21 @@
 import cv2
 from flask import Flask, render_template, Response
 from flask_socketio import SocketIO, emit
+from datetime import datetime
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 user_count = 0
+start_time = datetime.now()
 
 classNames = []
-classFile = "/home/pi1/Desktop/webStreamingCV/coco.names"  # Update with your path to the coco.names file
+classFile = "/home/giorgos/Επιτεύγματα/Ρομποτική/Projects RaspberryPi/webStreamingCV/coco.names"  # Update with your path to the coco.names file
 
 with open(classFile, "rt") as f:
     classNames = f.read().rstrip("\n").split("\n")
 
-configPath = "/home/pi1/Desktop/webStreamingCV/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt"  # Update with your path
-weightsPath = "/home/pi1/Desktop/webStreamingCV/frozen_inference_graph.pb"  # Update with your path
+configPath = "/home/giorgos/Επιτεύγματα/Ρομποτική/Projects RaspberryPi/webStreamingCV/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt"  # Update with your path
+weightsPath = "/home/giorgos/Επιτεύγματα/Ρομποτική/Projects RaspberryPi/webStreamingCV/frozen_inference_graph.pb"  # Update with your path
 
 net = cv2.dnn_DetectionModel(weightsPath, configPath)
 net.setInputSize(320, 320)
@@ -77,6 +79,18 @@ def handle_disconnect():
     global user_count
     user_count -= 1
     emit('update_count', {'count': user_count}, broadcast=True)
+
+@socketio.on('get_app_uptime')
+def get_app_uptime():
+    while True:    
+        uptime = datetime.now() - start_time
+        # Extract hours, minutes, and seconds as integers
+        hours, remainder = divmod(uptime.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60) 
+        # Display the app uptime in the format "Xh Xm Xs"
+        formatted_uptime = f"{hours}h {minutes}m {seconds}s"    
+        socketio.emit('update_app_uptime', formatted_uptime)
+        socketio.sleep(1)  
 
 
 if __name__ == '__main__':
